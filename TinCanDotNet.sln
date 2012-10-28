@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinCanDotNet", "TinCanDotNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinCanDotNet.Tests", "TinCanDotNet.Tests\TinCanDotNet.Tests.csproj", "{4D7E9228-D1BA-4199-A82A-7FF7E421B4A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinCanDotNet.Model", "TinCanDotNet.Model\TinCanDotNet.Model.csproj", "{2D52DFA1-1CEA-45D0-80B1-DF3FB23CE4A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{4D7E9228-D1BA-4199-A82A-7FF7E421B4A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D7E9228-D1BA-4199-A82A-7FF7E421B4A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D7E9228-D1BA-4199-A82A-7FF7E421B4A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D52DFA1-1CEA-45D0-80B1-DF3FB23CE4A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D52DFA1-1CEA-45D0-80B1-DF3FB23CE4A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D52DFA1-1CEA-45D0-80B1-DF3FB23CE4A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D52DFA1-1CEA-45D0-80B1-DF3FB23CE4A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
