@@ -40,6 +40,7 @@
       <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,11 +51,12 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Actor.cs" />
+    <Compile Include="DbHelper.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Statement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Verb.cs" />
-    <Compile Include="_Object.cs" />
+    <Compile Include="TCObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

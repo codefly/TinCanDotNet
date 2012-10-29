@@ -24,13 +24,14 @@ namespace TinCanDotNet.Model
         public TCObject authority { get; set; }
         public bool voided { get; set; }
 
-        public int Insert(SqlConnection cn)
+        public long Insert(SqlConnection cn)
         {   
   
-            int actorId = this.actor.Insert(cn);
+            long actorId = this.actor.Insert(cn);
+            long verbId = this.verb.Insert(cn);
             string sql = @"
-                insert into Statement (ID, AgentID) values (@id, @actorid); select Scope_identity()";
-            return cn.Query<int>(sql, new { id = this.id, actorid = actorId }).Single();
+                insert into Statement (ID, AgentID, VerbID) values (@id, @actorid, @verbid); select Scope_identity()";
+            return cn.Query<long>(sql, new { id = this.id, actorid = actorId, verbid = verbId}).Single();
 
           
         }

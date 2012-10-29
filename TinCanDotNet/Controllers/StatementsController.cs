@@ -19,7 +19,7 @@ namespace TinCanDotNet.Controllers
         public string actor { get; set; }
         public DateTime? since { get; set; }
         public DateTime? until { get; set; }
-        public int limit { get; set; }
+        public int? limit { get; set; }
         public String authoritative { get; set; }
         public bool? sparse { get; set; }
         public string instructor { get; set; }

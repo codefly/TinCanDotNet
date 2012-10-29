@@ -17,16 +17,16 @@ namespace TinCanDotNet.Model
         public string openid { get; set; }
         public Account account { get; set; }
 
-        public int Insert(SqlConnection cn)
+        public long Insert(SqlConnection cn)
         {
-            int? acc_id = null;
+            long? acc_id = null;
             if(account != null)
                 acc_id = account.Insert(cn);
             string sql = @"
                 insert into Agent(objectType, name, mbox, mbox_sha1sum, openid, AccountID)
                    values(@objectType, @name, @mbox, @mbox_sha1sum, @openid, @AccountID);
-                select Scope_identity();";
-            return cn.Query<int>(sql, new
+                select cast(Scope_identity() as bigint);";
+            var result =  cn.Query<long>(sql, new
             {
                 objectType = this.objectType ?? "Actor",
                 name = this.name,
@@ -34,7 +34,8 @@ namespace TinCanDotNet.Model
                 mbox_sha1sum = this.mbox_sha1sum,
                 openid = this.openid,
                 AccountID = acc_id
-            }).Single();
+            });
+            return result.Single();
             
 
         }

@@ -46,6 +46,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -99,7 +100,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ActorTest.cs" />
     <Compile Include="Model\StatementTests.cs" />
+    <Compile Include="Model\AccountTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ValuesControllerTest.cs" />
   </ItemGroup>

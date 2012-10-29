@@ -13,10 +13,10 @@ namespace TinCanDotNet.Model
         public string homepage { get; set; }
         public string name { get; set; }
 
-        public int Insert(SqlConnection cn)
+        public long Insert(SqlConnection cn)
         {
-            string sql = @"insert into Account(homepage, name) values (@homepage, @name); select scope_identity()";
-            return cn.Query<int>(sql, this).Single();
+            string sql = @"insert into Account(homepage, name) values (@homepage, @name); select cast(scope_identity() as bigint)";
+            return cn.Query<long>(sql, this).Single();
         }
     }
 }
