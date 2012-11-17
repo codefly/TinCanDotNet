@@ -15,18 +15,7 @@ namespace TinCanDotNet.Controllers
     {
         public ActionResult Index()
         {
-            Statement statement = new Statement();
-            statement.id = new Guid().ToString();
-            statement.actor = new Actor { mbox = "codefly@gmail.com", name = "mike" };
-            string foo = Newtonsoft.Json.JsonConvert.SerializeObject(statement);
-
-
-            using (SqlConnection cn = new SqlConnection("Data Source=localhost;Initial Catalog=TinCanDotNet;Integrated Security=True"))
-            {
-                cn.Open();
-                statement.Insert(cn);
-
-            }
+           
             return View();
         }
     }

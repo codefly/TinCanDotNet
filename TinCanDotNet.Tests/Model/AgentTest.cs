@@ -11,7 +11,7 @@ using System.Transactions;
 namespace TinCanDotNet.Tests.Model
 {
     [TestClass]
-    public class ActorTest
+    public class AgentTest
     {
         TransactionScope scope;
 
@@ -34,7 +34,7 @@ namespace TinCanDotNet.Tests.Model
             string homepage = Guid.NewGuid().ToString();
             Account acc = new Account {  homepage = homepage, name="mike" };
 
-            Actor actor = new Actor { objectType = "Actor", openid = "abc", mbox = "codefly@gmail.com", name = "mike", account = acc };
+            Agent actor = new Agent { objectType = "Actor", openid = "abc", mbox = "codefly@gmail.com", name = "mike", account = acc };
 
 
             using (SqlConnection cn = DbHelper.GetConnection())
@@ -42,7 +42,7 @@ namespace TinCanDotNet.Tests.Model
                 cn.Open();
                 var actorid = actor.Insert(cn);
                 var foundac = cn.Query<Account>("select * from Account where homepage like @hp", new { hp = homepage }).Single();
-                var foundactor = cn.Query<Actor>("select * from Agent where AgentID like @actid", new { actid = actorid }).Single();
+                var foundactor = cn.Query<Agent>("select * from Agent where AgentID like @actid", new { actid = actorid }).Single();
                 
                 
                 Assert.AreEqual(foundac.homepage, homepage);

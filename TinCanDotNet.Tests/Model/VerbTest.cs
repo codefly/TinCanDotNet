@@ -11,7 +11,7 @@ using System.Transactions;
 namespace TinCanDotNet.Tests.Model
 {
     [TestClass]
-    public class AccountTest
+    public class VerbTest
     {
         TransactionScope scope;
 
@@ -28,26 +28,26 @@ namespace TinCanDotNet.Tests.Model
         }
 
         [TestMethod]
-        public void Account_BasicCreate()
+        public void Verb_BasicCreate()
         {
 
-            string id = Guid.NewGuid().ToString();
-            Verb v = new Verb {  id = id, display = "thedisplay" };
+            string homepage = Guid.NewGuid().ToString();
+            Account acc = new Account { homepage = homepage, name = "mike" };
 
             using (SqlConnection cn = DbHelper.GetConnection())
             {
                 cn.Open();
-                v.Insert(cn);
-                var foundverb = cn.Query<Verb>("select * from Verb where id like @id", new { id = id }).Single();
-                
-                
-                Assert.AreEqual(foundverb.id, id);
-                Assert.AreEqual(foundverb.display, "thedisplay");
+                acc.Insert(cn);
+                var foundac = cn.Query<Account>("select * from Account where homepage like @hp", new { hp = homepage }).Single();
+
+
+                Assert.AreEqual(foundac.homepage, homepage);
+                Assert.AreEqual(foundac.name, "mike");
 
 
             }
 
         }
-        
     }
+        
 }

@@ -14,14 +14,14 @@ namespace TinCanDotNet.Model
         public string display;
     
 
-        public long Insert(SqlConnection cn)
+        public long? Insert(SqlConnection cn)
         {
 
             string sql = @"
                 insert into Verb(ID, display)
                    values(@id, @display);
                 select cast(Scope_identity() as bigint);";
-            var result = cn.Query<long>(sql, new { id=this.id, display=this.display});
+            var result = cn.Query<long?>(sql, new { id=this.id, display=this.display});
             return result.Single();
             
 

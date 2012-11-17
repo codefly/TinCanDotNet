@@ -5,11 +5,15 @@ using System.Text;
 using System.Data.SqlClient;
 using Dapper;
 using DapperExtensions;
+using Newtonsoft.Json;
 
 namespace TinCanDotNet.Model
 {
-    public class Actor
+    public class Agent
     {
+        [JsonIgnore]
+        public long AgentID { get; set; }
+
         public string objectType { get; set; }
         public string name { get; set; }
         public string mbox { get; set; }
@@ -17,7 +21,7 @@ namespace TinCanDotNet.Model
         public string openid { get; set; }
         public Account account { get; set; }
 
-        public long Insert(SqlConnection cn)
+        public long? Insert(SqlConnection cn)
         {
             long? acc_id = null;
             if(account != null)
@@ -26,7 +30,7 @@ namespace TinCanDotNet.Model
                 insert into Agent(objectType, name, mbox, mbox_sha1sum, openid, AccountID)
                    values(@objectType, @name, @mbox, @mbox_sha1sum, @openid, @AccountID);
                 select cast(Scope_identity() as bigint);";
-            var result =  cn.Query<long>(sql, new
+            var result =  cn.Query<long?>(sql, new
             {
                 objectType = this.objectType ?? "Actor",
                 name = this.name,

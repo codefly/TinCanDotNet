@@ -11,7 +11,7 @@ using System.Transactions;
 namespace TinCanDotNet.Tests.Model
 {
     [TestClass]
-    public class AccountTest
+    public class TCObjectTest
     {
         TransactionScope scope;
 
@@ -28,26 +28,32 @@ namespace TinCanDotNet.Tests.Model
         }
 
         [TestMethod]
-        public void Account_BasicCreate()
+        public void TCObject_BasicCreate()
         {
 
-            string id = Guid.NewGuid().ToString();
-            Verb v = new Verb {  id = id, display = "thedisplay" };
+            string ot = Guid.NewGuid().ToString();
+            string mbox = Guid.NewGuid().ToString();
+            Agent agent = new Agent { mbox = mbox };
 
+            TCObject obj = new TCObject { objectType = ot, agent = agent };
+
+            //TODO: more cases
             using (SqlConnection cn = DbHelper.GetConnection())
             {
                 cn.Open();
-                v.Insert(cn);
-                var foundverb = cn.Query<Verb>("select * from Verb where id like @id", new { id = id }).Single();
+                obj.Insert(cn);
+                var found = cn.Query<TCObject>("select * from TCObject where objectType like @ot", new { ot = ot }).Single();
+
+                var foundagent = cn.Query<Agent>("select * from Agent where mbox = @mbox", new { mbox = mbox }).Single();
+
+
                 
-                
-                Assert.AreEqual(foundverb.id, id);
-                Assert.AreEqual(foundverb.display, "thedisplay");
+                Assert.AreEqual(foundagent.mbox, mbox);
 
 
             }
 
         }
-        
     }
+        
 }
