@@ -4,41 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TinCanDotNet.Models;
 using Newtonsoft.Json.Serialization;
 using System.Web.Helpers;
+using TinCanDotNet.Models;
 
 namespace TinCanDotNet.Controllers
 {
-    public class SearchObject
-    {
-        public string verb { get; set; }
-        public string _object { get; set; }
-        public string registration { get; set; }
-        public bool? context { get; set; }
-        public string actor { get; set; }
-        public DateTime? since { get; set; }
-        public DateTime? until { get; set; }
-        public int limit { get; set; }
-        public String authoritative { get; set; }
-        public bool? sparse { get; set; }
-        public string instructor { get; set; }
-
-        public bool HasValues()
-        {
-            return verb != null |
-                _object != null |
-                registration != null |
-                context != null |
-                actor != null |
-                since != null |
-                until != null |
-                limit != null |
-                authoritative != null |
-                sparse != null |
-                instructor != null;
-        }
-    }
+   
 
     public class StatementsController : ApiController
     {
@@ -47,45 +19,7 @@ namespace TinCanDotNet.Controllers
         // GET api/statements
         public dynamic Get(string statementid = null, string limit = null)
         {
-            var db = new DB();
-            try
-            {
-                // hacky
-                if (statementid == null)
-                {
-                    statementid = "_design/statements/_view/all";
-                }
-                if(limit != null)
-                    statementid += "?limit=" + limit;
-                var doc = db.GetDocument("http://localhost:5984", "tin_can", statementid);
-                dynamic jo = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(doc);
-                if(((IDictionary<String, Object>)jo).ContainsKey("_id")){
-                    return CleanStatement(jo);
-                } else if ( ((IDictionary<String, Object>)jo).ContainsKey("rows") ){
-                    var list = new List<dynamic>();
-                
-                    foreach (var r in jo.rows)
-                    {
-
-                        var stm = r.value;
-                   
-                        list.Add(CleanStatement(stm));
-                    }
-
-                    return new { statements = list };
-                } else {
-                    return new {result = jo};
-                }
-              
-
-            }catch(WebException ex){
-                switch (ex.Status) {
-                    case WebExceptionStatus.ProtocolError:
-                        throw new HttpResponseException(HttpStatusCode.NotFound);
-                    default:
-                        throw new HttpResponseException(HttpStatusCode.BadRequest);
-                }
-            }
+            return new { foo = "bar" };
             
             
         }
@@ -101,7 +35,7 @@ namespace TinCanDotNet.Controllers
  
 
         // POST api/statements
-        public string Post(SearchObject search, string statementid = null) //[FromBody]dynamic value, string statementid = null)
+        public string Post([FromBody]dynamic value, string statementid = null)
         {
            
 
@@ -109,17 +43,7 @@ namespace TinCanDotNet.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.MethodNotAllowed);
             }
-            if (search != null)
-            {
-                return "foo";
-            }
-            dynamic value;
-            try
-            {
-                value = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(Request.Content.ToString());
-            }catch{
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
+            
             var list = new List<string>();
             foreach (dynamic val in value)
             {
@@ -132,32 +56,10 @@ namespace TinCanDotNet.Controllers
         }
 
         // PUT api/statements
-        public void Put([FromBody]dynamic value, string statementid = null)
+        public void Put([FromBody]Statement value, string statementid = null)
         {
 
             SaveObject(value, statementid);
-            /*
-
-            if (value == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            value.stored = DateTime.Now;
-            if (value.timestamp == null) value.timestamp = value.stored;
-            value._id = statementid;
-            value.id = statementid;
-            value.authority = "anonymous";
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
-            try
-            {
-                new DB().CreateDocument("http://localhost:5984", "tin_can", json);
-            }
-            catch (WebException ex)
-            {
-                Console.Write(ex.Response);
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }*/
-                  
 
         }
 
@@ -173,6 +75,8 @@ namespace TinCanDotNet.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+            return "xx";
+            /*
             value.stored = DateTime.Now;
             if (value.timestamp == null) value.timestamp = value.stored;
             if (statementid != null)
@@ -193,6 +97,7 @@ namespace TinCanDotNet.Controllers
                 Console.Write(ex.Response);
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+             * */
         }
 
         private dynamic CleanStatement(dynamic stm)
