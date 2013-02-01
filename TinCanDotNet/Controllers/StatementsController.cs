@@ -4,17 +4,23 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Newtonsoft.Json.Serialization;
+//using Newtonsoft.Json.Serialization;
 using System.Web.Helpers;
 using TinCanDotNet.Models;
+using System.Web.Http.Filters;
+
+
+using Raven.Client;
 
 namespace TinCanDotNet.Controllers
 {
-   
 
-    public class StatementsController : ApiController
+
+    public class StatementsController : ApiController  
     {
+        //TODO: move this code into a base class or filter
 
+        public IDocumentSession RavenSession { get; protected set; }
 
         // GET api/statements
         public dynamic Get(string statementid = null, string limit = null)
@@ -68,36 +74,42 @@ namespace TinCanDotNet.Controllers
         {
         }
 
-        private string SaveObject(dynamic value, string statementid)
+        private string SaveObject(Statement value, string statementid)
         {
             string returnval = null;
             if (value == null)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            return "xx";
-            /*
-            value.stored = DateTime.Now;
-            if (value.timestamp == null) value.timestamp = value.stored;
+            //return "xx";
+            RavenSession = WebApiApplication.Store.OpenSession();
+            
+            value.Stored = DateTime.Now;
+            if (value.TimeStamp == null) value.TimeStamp = value.Stored;
             if (statementid != null)
             {
-                value._id = statementid;
-                value.id = statementid;
+                value.Id = statementid;
             }
-            value.type = "statement";
-            value.authority = "anonymous";
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            else
+            {
+                value.Id = Guid.NewGuid().ToString();
+            }
+            //value.Type = "statement";
+            value.Authority = "anonymous";
+            //string json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
             try
             {
-               var str =  new DB().CreateDocument("http://localhost:5984", "tin_can", json);
-               return str;
+                
+               RavenSession.Store(value);
+               RavenSession.SaveChanges();
+               return "ok";
             }
             catch (WebException ex)
             {
                 Console.Write(ex.Response);
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-             * */
+   
         }
 
         private dynamic CleanStatement(dynamic stm)

@@ -9,7 +9,9 @@ namespace TinCanDotNet.Models
     [JsonObject]
     public class Statement
     {
-        
+        [JsonProperty(PropertyName = "id")]
+        public dynamic Id;
+
         [JsonProperty(PropertyName="actor")]
         public dynamic Actor { get; set; }
 
