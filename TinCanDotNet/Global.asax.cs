@@ -6,9 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Raven.Client.Document;
-using Raven.Client.Indexes;
-using System.Reflection;
+
+
 
 namespace TinCanDotNet
 {
@@ -17,7 +16,6 @@ namespace TinCanDotNet
 
     public class WebApiApplication : System.Web.HttpApplication
     {
-        public static DocumentStore Store;
 
         protected void Application_Start()
         {
@@ -31,10 +29,7 @@ namespace TinCanDotNet
             // this line removes the default xml formatter, all of our webservices return JSON now
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
-            Store = new DocumentStore { ConnectionStringName = "RavenDB" };
-            Store.Initialize();
 
-            IndexCreation.CreateIndexes(Assembly.GetCallingAssembly(), Store);
         }
     }
 }

@@ -10,22 +10,22 @@ namespace TinCanDotNet.Models
     public class Statement
     {
         [JsonProperty(PropertyName = "id")]
-        public dynamic Id;
+        public string Id;
 
         [JsonProperty(PropertyName="actor")]
-        public dynamic Actor { get; set; }
+        public Agent Actor { get; set; }
 
         [JsonProperty(PropertyName = "verb")]
-        public dynamic Verb { get; set; }
+        public Verb Verb { get; set; }
 
         [JsonProperty(PropertyName = "object")]
-        public dynamic Object { get; set; }
+        public IDictionary<string, string> Object { get; set; }
 
         [JsonProperty(PropertyName = "context")]
-        public dynamic Context { get; set; }
+        public IDictionary<string, string> Context { get; set; }
 
         [JsonProperty(PropertyName = "result")]
-        public dynamic Result { get; set; }
+        public IDictionary<string, string> Result { get; set; }
 
         [JsonProperty(PropertyName = "timestamp")]
         public DateTime? TimeStamp {get; set;}
@@ -34,7 +34,7 @@ namespace TinCanDotNet.Models
         public DateTime? Stored { get; set; }
 
         [JsonProperty(PropertyName = "authority")]
-        public dynamic Authority { get; set; }
+        public IDictionary<string, string> Authority { get; set; }
         
 
     }

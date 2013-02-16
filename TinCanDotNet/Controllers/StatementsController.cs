@@ -82,21 +82,22 @@ namespace TinCanDotNet.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             //return "xx";
-            RavenSession = WebApiApplication.Store.OpenSession();
+            RavenSession = RavenConnector.GetStore().OpenSession();
             
             value.Stored = DateTime.Now;
-            if (value.TimeStamp == null) value.TimeStamp = value.Stored;
+            //if (value.TimeStamp == null) value.TimeStamp = value.Stored;
             if (statementid != null)
             {
                 value.Id = statementid;
             }
-            else
+            else if (value.Id == null)
             {
                 value.Id = Guid.NewGuid().ToString();
             }
             //value.Type = "statement";
-            value.Authority = "anonymous";
+            value.Authority = new Dictionary<string, string>();
             //string json = Newtonsoft.Json.JsonConvert.SerializeObject(value);
+            //var obj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             try
             {
                 
