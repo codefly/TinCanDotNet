@@ -59,7 +59,7 @@ namespace TinCanDotNet.Tests.Controllers
         [TestMethod]
         public void StatementsPut()
         {
-            StatementsController controller = new StatementsController();
+            StatementsController controller = new StatementsController(new TinCanDotNet.Models.Repositories.MemoryRepository<Statement>());
             Statement statement =  JsonConvert.DeserializeObject<Statement>(statementString1);
 
             controller.Put(statement);

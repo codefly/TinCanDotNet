@@ -19,12 +19,12 @@ namespace TinCanDotNet.Models
         public Verb Verb { get; set; }
 
         [JsonProperty(PropertyName = "object")]
-        public IDictionary<string, string> Object { get; set; }
+        public StatementObject Object { get; set; }
 
-        [JsonProperty(PropertyName = "context")]
+        [JsonProperty(PropertyName = "context", NullValueHandling = NullValueHandling.Ignore)]
         public IDictionary<string, string> Context { get; set; }
 
-        [JsonProperty(PropertyName = "result")]
+        [JsonProperty(PropertyName = "result", NullValueHandling=NullValueHandling.Ignore)]
         public IDictionary<string, string> Result { get; set; }
 
         [JsonProperty(PropertyName = "timestamp")]

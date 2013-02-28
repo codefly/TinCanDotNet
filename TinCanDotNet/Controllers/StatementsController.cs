@@ -8,9 +8,8 @@ using System.Web.Http;
 using System.Web.Helpers;
 using TinCanDotNet.Models;
 using System.Web.Http.Filters;
+using TinCanDotNet.Models.Repositories;
 
-
-using Raven.Client;
 
 namespace TinCanDotNet.Controllers
 {
@@ -20,20 +19,28 @@ namespace TinCanDotNet.Controllers
     {
         //TODO: move this code into a base class or filter
 
-        public IDocumentSession RavenSession { get; protected set; }
+        private  IDataRepository<Statement> repository;
+
+        public StatementsController(IDataRepository<Statement> repository)
+        {
+            this.repository = repository;
+        }
 
         // GET api/statements
         public dynamic Get(string statementid = null, string limit = null)
         {
-            return new { foo = "bar" };
-            
-            
+            if (statementid != null)
+                return repository.Get(statementid);
+            else
+                return "TODO";
+           
+                
         }
 
         // GET api/statements/5
-        public string Get(int id)
+        public Statement Get(string id)
         {
-            return "value";
+            return repository.Get(id);
         }
 
 
@@ -51,7 +58,7 @@ namespace TinCanDotNet.Controllers
             }
             
             var list = new List<string>();
-            foreach (dynamic val in value)
+            foreach (Statement val in value)
             {
                 var ret = SaveObject(val, null);
                 dynamic njo = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(ret);
@@ -81,8 +88,6 @@ namespace TinCanDotNet.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
-            //return "xx";
-            RavenSession = RavenConnector.GetStore().OpenSession();
             
             value.Stored = DateTime.Now;
             //if (value.TimeStamp == null) value.TimeStamp = value.Stored;
@@ -100,9 +105,8 @@ namespace TinCanDotNet.Controllers
             //var obj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
             try
             {
-                
-               RavenSession.Store(value);
-               RavenSession.SaveChanges();
+
+                repository.Save(value.Id, value);
                return "ok";
             }
             catch (WebException ex)
