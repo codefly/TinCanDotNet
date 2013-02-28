@@ -1,6 +1,8 @@
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
+using Unity.WebApi;
+using System.Web.Http;
 using TinCanDotNet.Models.Repositories;
 using TinCanDotNet.Models;
 
@@ -12,7 +14,10 @@ namespace TinCanDotNet
     {
       var container = BuildUnityContainer();
 
-      DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+      DependencyResolver.SetResolver(new Unity.Mvc4.UnityDependencyResolver(container));
+      GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
+     
+
 
       return container;
     }
